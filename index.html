@@ -1,0 +1,1265 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TiTaPa - منصة الذكاء الاصطناعي المتكاملة</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+    
+    :root {
+      --primary-color: #6a11cb;
+      --secondary-color: #2575fc;
+      --dark-bg: #0d0d1a;
+      --card-bg: rgba(22, 36, 71, 0.9);
+      --card-bg-hover: rgba(31, 42, 72, 0.95);
+      --text-light: #f0f0f0;
+      --text-gray: #cccccc;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: var(--dark-bg);
+      color: var(--text-light);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    
+    body[dir="ltr"] {
+      font-family: 'Roboto', sans-serif;
+    }
+    
+    /* خلفيات متحركة */
+    #particles-js, #neural-bg {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: -2;
+    }
+    
+    #neural-bg {
+      z-index: -1;
+    }
+    
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      position: relative;
+      z-index: 1;
+    }
+    
+    /* شريط التنقل */
+    .navbar {
+      background: rgba(13, 13, 26, 0.9);
+      backdrop-filter: blur(10px);
+      padding: 15px 0;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+    
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+    }
+    
+    .logo h1 {
+      font-size: 1.8rem;
+      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .nav-links {
+      display: flex;
+      list-style: none;
+    }
+    
+    .nav-links li {
+      margin-left: 25px;
+    }
+    
+    .nav-links a {
+      color: var(--text-light);
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s;
+      position: relative;
+    }
+    
+    .nav-links a:hover {
+      color: var(--secondary-color);
+    }
+    
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -5px;
+      right: 0;
+      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+      transition: width 0.3s;
+    }
+    
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+    
+    .language-switcher {
+      margin-left: 20px;
+    }
+    
+    .lang-btn {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: var(--text-light);
+      padding: 8px 15px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .lang-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+    
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text-light);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    
+    /* الهيرو */
+    .hero {
+      text-align: center;
+      padding: 150px 20px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .hero h1 {
+      font-size: 3.5rem;
+      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 15px;
+      animation: fadeInUp 1s ease;
+    }
+    
+    .hero p {
+      font-size: 1.3rem;
+      color: var(--text-gray);
+      max-width: 700px;
+      margin: 0 auto 30px;
+      animation: fadeInUp 1.2s ease;
+    }
+    
+    .btn {
+      display: inline-block;
+      padding: 14px 30px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 30px;
+      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-decoration: none;
+      box-shadow: 0 4px 15px rgba(106, 17, 203, 0.3);
+      animation: fadeInUp 1.4s ease;
+    }
+    
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 7px 20px rgba(106, 17, 203, 0.5);
+    }
+    
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--secondary-color);
+      color: var(--text-light);
+      margin-right: 15px;
+    }
+    
+    .btn-outline:hover {
+      background: linear-gradient(90deg, rgba(106, 17, 203, 0.1), rgba(37, 117, 252, 0.1));
+    }
+    
+    /* الميزات */
+    .features {
+      padding: 80px 20px;
+    }
+    
+    .section-title {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+    
+    .section-title h2 {
+      font-size: 2.5rem;
+      color: var(--text-light);
+      margin-bottom: 15px;
+    }
+    
+    .section-title p {
+      color: var(--text-gray);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+    
+    .feature-box {
+      background: var(--card-bg);
+      border-radius: 15px;
+      padding: 30px;
+      text-align: center;
+      transition: all 0.3s;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .feature-box:hover {
+      transform: translateY(-10px);
+      background: var(--card-bg-hover);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    }
+    
+    .feature-icon {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .feature-box h3 {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+      color: var(--text-light);
+    }
+    
+    .feature-box p {
+      color: var(--text-gray);
+    }
+    
+    /* قسم about */
+    .about {
+      padding: 80px 20px;
+      background: rgba(13, 13, 26, 0.5);
+    }
+    
+    .about-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: center;
+    }
+    
+    .about-text h2 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .about-text p {
+      margin-bottom: 20px;
+      color: var(--text-gray);
+    }
+    
+    .about-image {
+      position: relative;
+    }
+    
+    .about-image img {
+      width: 100%;
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+    
+    /* قسم جلب البيانات */
+    .data-section {
+      padding: 80px 20px;
+      background: rgba(13, 13, 26, 0.7);
+    }
+    
+    .data-container {
+      max-width: 800px;
+      margin: auto;
+      background: var(--card-bg);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      text-align: center;
+    }
+    
+    .data-container h2 {
+      font-size: 2.2rem;
+      margin-bottom: 20px;
+      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .data-container p {
+      color: var(--text-gray);
+      margin-bottom: 25px;
+    }
+    
+    .output {
+      margin-top: 25px;
+      padding: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      background-color: rgba(13, 13, 26, 0.5);
+      text-align: right;
+      min-height: 150px;
+      transition: all 0.3s;
+    }
+    
+    body[dir="ltr"] .output {
+      text-align: left;
+    }
+    
+    .output.loading {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .output.success {
+      border-color: rgba(0, 255, 0, 0.2);
+      background-color: rgba(0, 255, 0, 0.05);
+    }
+    
+    .output.error {
+      border-color: rgba(255, 0, 0, 0.2);
+      background-color: rgba(255, 0, 0, 0.05);
+    }
+    
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      border-top: 4px solid var(--secondary-color);
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .data-item {
+      margin-bottom: 15px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .data-item:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+    
+    .data-item strong {
+      color: var(--secondary-color);
+      display: block;
+      margin-bottom: 5px;
+    }
+    
+    /* الأسئلة الشائعة */
+    .faq {
+      padding: 80px 20px;
+    }
+    
+    .faq-item {
+      margin-bottom: 20px;
+      background: var(--card-bg);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    
+    .faq-question {
+      padding: 20px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 600;
+    }
+    
+    .faq-answer {
+      padding: 0 20px;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease, padding 0.3s ease;
+    }
+    
+    .faq-item.active .faq-answer {
+      max-height: 200px;
+      padding: 0 20px 20px;
+    }
+    
+    /* الفوتر */
+    footer {
+      background: rgba(13, 13, 26, 0.95);
+      padding: 40px 20px;
+      text-align: center;
+    }
+    
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      text-align: right;
+      margin-bottom: 30px;
+    }
+    
+    body[dir="ltr"] .footer-content {
+      text-align: left;
+    }
+    
+    .footer-logo h2 {
+      font-size: 2rem;
+      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 15px;
+    }
+    
+    .footer-links h3, .footer-contact h3 {
+      font-size: 1.3rem;
+      margin-bottom: 15px;
+      color: var(--text-light);
+    }
+    
+    .footer-links ul {
+      list-style: none;
+    }
+    
+    .footer-links li {
+      margin-bottom: 10px;
+    }
+    
+    .footer-links a {
+      color: var(--text-gray);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    
+    .footer-links a:hover {
+      color: var(--secondary-color);
+    }
+    
+    .footer-contact p {
+      color: var(--text-gray);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .social-icons {
+      display: flex;
+      gap: 15px;
+      margin-top: 15px;
+    }
+    
+    .social-icons a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--card-bg);
+      color: var(--text-light);
+      transition: all 0.3s;
+    }
+    
+    .social-icons a:hover {
+      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+      transform: translateY(-3px);
+    }
+    
+    .copyright {
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 20px;
+      color: var(--text-gray);
+      font-size: 0.9rem;
+    }
+    
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 992px) {
+      .about-content {
+        grid-template-columns: 1fr;
+      }
+      
+      .hero h1 {
+        font-size: 2.8rem;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 70px;
+        right: 0;
+        width: 100%;
+        background: rgba(13, 13, 26, 0.95);
+        flex-direction: column;
+        padding: 20px;
+        text-align: center;
+      }
+      
+      .nav-links.active {
+        display: flex;
+      }
+      
+      .nav-links li {
+        margin: 15px 0;
+      }
+      
+      .mobile-menu-btn {
+        display: block;
+      }
+      
+      .hero h1 {
+        font-size: 2.3rem;
+      }
+      
+      .hero p {
+        font-size: 1.1rem;
+      }
+      
+      .section-title h2 {
+        font-size: 2rem;
+      }
+    }
+    
+    @media (max-width: 576px) {
+      .hero {
+        padding: 120px 20px 60px;
+      }
+      
+      .hero h1 {
+        font-size: 2rem;
+      }
+      
+      .btn {
+        padding: 12px 25px;
+        font-size: 1rem;
+      }
+      
+      .feature-box {
+        padding: 20px;
+      }
+      
+      .data-container {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- خلفيات متحركة -->
+  <div id="particles-js"></div>
+  <canvas id="neural-bg"></canvas>
+
+  <!-- شريط التنقل -->
+  <nav class="navbar">
+    <div class="container nav-container">
+      <div class="logo">
+        <h1>TiTaPa</h1>
+      </div>
+      
+      <ul class="nav-links">
+        <li><a href="#home" data-i18n="nav.home">الرئيسية</a></li>
+        <li><a href="#features" data-i18n="nav.features">الميزات</a></li>
+        <li><a href="#about" data-i18n="nav.about">عننا</a></li>
+        <li><a href="#data" data-i18n="nav.data">جلب البيانات</a></li>
+        <li><a href="#faq" data-i18n="nav.faq">الأسئلة الشائعة</a></li>
+        <li><a href="#contact" data-i18n="nav.contact">اتصل بنا</a></li>
+        <li class="language-switcher">
+          <button class="lang-btn" id="languageToggle">
+            <i class="fas fa-globe"></i>
+            <span data-i18n="lang.arabic">العربية</span>
+          </button>
+        </li>
+      </ul>
+      
+      <button class="mobile-menu-btn">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- الهيرو -->
+  <section class="hero" id="home">
+    <div class="container">
+      <h1 data-i18n="hero.title">TiTaPa - منصة الذكاء الاصطناعي المتكاملة</h1>
+      <p data-i18n="hero.subtitle">منصة SaaS متقدمة لمحاكاة الذكاء الاصطناعي والتحليلات الذكية لتطوير أعمالك وتحقيق النجاح</p>
+      <div class="hero-buttons">
+        <a href="#data" class="btn btn-outline" data-i18n="hero.tryButton">جرب الخدمة</a>
+        <a href="#features" class="btn" data-i18n="hero.featuresButton">اكتشف الميزات</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- الميزات -->
+  <section class="features" id="features">
+    <div class="container">
+      <div class="section-title">
+        <h2 data-i18n="features.title">ميزات منصتنا</h2>
+        <p data-i18n="features.subtitle">اكتشف القوة الكاملة لمنصة TiTaPa وكيف يمكنها تحويل عملك إلى تجربة ذكية</p>
+      </div>
+      
+      <div class="features-grid">
+        <div class="feature-box">
+          <div class="feature-icon">
+            <i class="fas fa-brain"></i>
+          </div>
+          <h3 data-i18n="features.ai.title">محاكاة الذكاء الاصطناعي</h3>
+          <p data-i18n="features.ai.desc">نماذج محاكاة متطورة للذكاء الاصطناعي لدعم اتخاذ القرار وتوقع النتائج بدقة عالية</p>
+        </div>
+        
+        <div class="feature-box">
+          <div class="feature-icon">
+            <i class="fas fa-chart-line"></i>
+          </div>
+          <h3 data-i18n="features.analytics.title">التحليلات الذكية</h3>
+          <p data-i18n="features.analytics.desc">تحليلات دقيقة تساعدك على فهم البيانات بشكل أعمق واستخلاص رؤى قابلة للتطبيق</p>
+        </div>
+        
+        <div class="feature-box">
+          <div class="feature-icon">
+            <i class="fas fa-cloud"></i>
+          </div>
+          <h3 data-i18n="features.cloud.title">منصة سحابية مرنة</h3>
+          <p data-i18n="features.cloud.desc">حلول مرنة وسحابية لتطوير أعمالك بسهولة مع إمكانية التوسع حسب احتياجاتك</p>
+        </div>
+        
+        <div class="feature-box">
+          <div class="feature-icon">
+            <i class="fas fa-shield-alt"></i>
+          </div>
+          <h3 data-i18n="features.security.title">أمان متقدم</h3>
+          <p data-i18n="features.security.desc">نحمي بياناتك بأحدث تقنيات التشفير والأنظمة الأمنية المتطورة</p>
+        </div>
+        
+        <div class="feature-box">
+          <div class="feature-icon">
+            <i class="fas fa-rocket"></i>
+          </div>
+          <h3 data-i18n="features.performance.title">أداء عالي السرعة</h3>
+          <p data-i18n="features.performance.desc">معالجة البيانات بسرعة فائقة وتقديم النتائج في الوقت الفعلي دون تأخير</p>
+        </div>
+        
+        <div class="feature-box">
+          <div class="feature-icon">
+            <i class="fas fa-cogs"></i>
+          </div>
+          <h3 data-i18n="features.integration.title">تكامل سهل</h3>
+          <p data-i18n="features.integration.desc">تكامل سلس مع أنظمتك الحالية وأدوات العمل الأخرى التي تستخدمها</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- about section -->
+  <section class="about" id="about">
+    <div class="container">
+      <div class="about-content">
+        <div class="about-text">
+          <h2 data-i18n="about.title">من نحن</h2>
+          <p data-i18n="about.p1">TiTaPa هي منصة رائدة في مجال الذكاء الاصطناعي والتحليلات، تأسست برؤية واضحة لتمكين الشركات من الاستفادة من قوة البيانات والذكاء الاصطناعي لتحقيق النمو والابتكار.</p>
+          <p data-i18n="about.p2">نحن نقدم حلولاً متكاملة وسهلة الاستخدام تساعدك على تحليل بياناتك، وتوقع الاتجاهات المستقبلية، واتخاذ قرارات أكثر ذكاءً.</p>
+          <p data-i18n="about.p3">باستخدام أحدث التقنيات وخوارزميات الذكاء الاصطناعي المتطورة، نساعدك على تحويل بياناتك إلى رؤى قابلة للتنفيذ وتحقيق ميزة تنافسية في سوقك.</p>
+          <a href="#data" class="btn" data-i18n="about.tryButton">جرب الخدمة الآن</a>
+        </div>
+        
+        <div class="about-image">
+          <svg width="100%" height="300" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#6a11cb" />
+                <stop offset="100%" stop-color="#2575fc" />
+              </linearGradient>
+            </defs>
+            <rect x="50" y="50" width="500" height="200" rx="10" fill="url(#gradient)" opacity="0.8" />
+            <circle cx="150" cy="150" r="40" fill="white" opacity="0.9" />
+            <circle cx="300" cy="150" r="40" fill="white" opacity="0.9" />
+            <circle cx="450" cy="150" r="40" fill="white" opacity="0.9" />
+            <path d="M150 150 L300 110" stroke="white" stroke-width="3" fill="none" />
+            <path d="M300 110 L450 150" stroke="white" stroke-width="3" fill="none" />
+            <path d="M450 150 L300 190" stroke="white" stroke-width="3" fill="none" />
+            <path d="M300 190 L150 150" stroke="white" stroke-width="3" fill="none" />
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- قسم جلب البيانات -->
+  <section class="data-section" id="data">
+    <div class="container">
+      <div class="section-title">
+        <h2 data-i18n="data.title">جلب البيانات الذكية</h2>
+        <p data-i18n="data.subtitle">اختبر قدرة منصتنا على جلب البيانات ومعالجتها بشكل ذكي وفعال</p>
+      </div>
+      
+      <div class="data-container">
+        <h2 data-i18n="data.boxTitle">نموذج جلب البيانات</h2>
+        <p data-i18n="data.boxDesc">انقر على الزر أدناه لاختبار قدرة النظام على جلب البيانات من مصادر خارجية ومعالجتها</p>
+        
+        <button class="btn" id="fetchButton">
+          <i class="fas fa-download"></i> <span data-i18n="data.button">احصل على البيانات</span>
+        </button>
+        
+        <div class="output" id="output">
+          <p data-i18n="data.placeholder">النتيجة ستظهر هنا بعد جلب البيانات...</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- الأسئلة الشائعة -->
+  <section class="faq" id="faq">
+    <div class="container">
+      <div class="section-title">
+        <h2 data-i18n="faq.title">الأسئلة الشائعة</h2>
+        <p data-i18n="faq.subtitle">إجابات على الأسئلة التي قد تدور في ذهنك حول منصة TiTaPa</p>
+      </div>
+      
+      <div class="faq-list">
+        <div class="faq-item">
+          <div class="faq-question">
+            <span data-i18n="faq.q1">ما هي منصة TiTaPa؟</span> <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <p data-i18n="faq.a1">TiTaPa هي منصة سحابية متكاملة تقدم حلول الذكاء الاصطناعي والتحليلات المتقدمة للشركات بمختلف أحجامها. نقدم أدوات لتحليل البيانات، ومحاكاة السيناريوهات، واتخاذ القرارات المدعومة بالذكاء الاصطناعي.</p>
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <div class="faq-question">
+            <span data-i18n="faq.q2">كيف يمكنني البدء باستخدام المنصة؟</span> <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <p data-i18n="faq.a2">يمكنك البدء بإنشاء حساب على المنصة عبر زيارة صفحة التسجيل واختيار الباقة المناسبة لاحتياجاتك. ستتمكن بعدها من الوصول إلى لوحة التحكم واستيراد بياناتك والبدء في استخدام أدواتنا التحليلية.</p>
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <div class="faq-question">
+            <span data-i18n="faq.q3">هل تقدمون دعمًا فنيًا؟</span> <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <p data-i18n="faq.a3">نعم، نقدم دعمًا فنيًا على مدار الساعة طوال أيام الأسبوع عبر multiple channels including live chat, email, and phone. كما نوفر documentation شاملاً ودروسًا تعليمية لمساعدتك في الاستفادة القصوى من المنصة.</p>
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <div class="faq-question">
+            <span data-i18n="faq.q4">كيف تضمنون أمان بياناتي؟</span> <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <p data-i18n="faq.a4">نحن نستخدم أحدث تقنيات التشفير وتخضع بياناتك لبروتوكولات أمان صارمة. نلتزم بأعلى معايير حماية البيانات والخصوصية، including compliance with GDPR and other regional regulations.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- الفوتر -->
+  <footer id="contact">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-logo">
+          <h2>TiTaPa</h2>
+          <p data-i18n="footer.tagline">منصة الذكاء الاصطناعي والتحليلات المتقدمة</p>
+          <div class="social-icons">
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+          </div>
+        </div>
+        
+        <div class="footer-links">
+          <h3 data-i18n="footer.linksTitle">روابط سريعة</h3>
+          <ul>
+            <li><a href="#home" data-i18n="nav.home">الرئيسية</a></li>
+            <li><a href="#features" data-i18n="nav.features">الميزات</a></li>
+            <li><a href="#about" data-i18n="nav.about">عننا</a></li>
+            <li><a href="#data" data-i18n="nav.data">جلب البيانات</a></li>
+            <li><a href="#faq" data-i18n="nav.faq">الأسئلة الشائعة</a></li>
+            <li><a href="#contact" data-i18n="nav.contact">اتصل بنا</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-contact">
+          <h3 data-i18n="footer.contactTitle">اتصل بنا</h3>
+          <p><i class="fas fa-envelope"></i> Boo90ka@gmail.com</p>
+          <p><i class="fas fa-phone"></i> +968 71169118</p>
+          <p><i class="fas fa-map-marker-alt"></i> <span data-i18n="footer.location">سلطنة عمان</span></p>
+        </div>
+      </div>
+      
+      <div class="copyright">
+        <p>© 2025 TiTaPa | Developed by Boo90. <span data-i18n="footer.rights">جميع الحقوق محفوظة</span></p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // بيانات الترجمة
+    const translations = {
+      ar: {
+        // التنقل
+        "nav.home": "الرئيسية",
+        "nav.features": "الميزات",
+        "nav.about": "عننا",
+        "nav.data": "جلب البيانات",
+        "nav.faq": "الأسئلة الشائعة",
+        "nav.contact": "اتصل بنا",
+        
+        // زر اللغة
+        "lang.arabic": "العربية",
+        "lang.english": "English",
+        
+        // الهيرو
+        "hero.title": "TiTaPa - منصة الذكاء الاصطناعي المتكاملة",
+        "hero.subtitle": "منصة SaaS متقدمة لمحاكاة الذكاء الاصطناعي والتحليلات الذكية لتطوير أعمالك وتحقيق النجاح",
+        "hero.tryButton": "جرب الخدمة",
+        "hero.featuresButton": "اكتشف الميزات",
+        
+        // الميزات
+        "features.title": "ميزات منصتنا",
+        "features.subtitle": "اكتشف القوة الكاملة لمنصة TiTaPa وكيف يمكنها تحويل عملك إلى تجربة ذكية",
+        "features.ai.title": "محاكاة الذكاء الاصطناعي",
+        "features.ai.desc": "نماذج محاكاة متطورة للذكاء الاصطناعي لدعم اتخاذ القرار وتوقع النتائج بدقة عالية",
+        "features.analytics.title": "التحليلات الذكية",
+        "features.analytics.desc": "تحليلات دقيقة تساعدك على فهم البيانات بشكل أعمق واستخلاص رؤى قابلة للتطبيق",
+        "features.cloud.title": "منصة سحابية مرنة",
+        "features.cloud.desc": "حلول مرنة وسحابية لتطوير أعمالك بسهولة مع إمكانية التوسع حسب احتياجاتك",
+        "features.security.title": "أمان متقدم",
+        "features.security.desc": "نحمي بياناتك بأحدث تقنيات التشفير والأنظمة الأمنية المتطورة",
+        "features.performance.title": "أداء عالي السرعة",
+        "features.performance.desc": "معالجة البيانات بسرعة فائقة وتقديم النتائج في الوقت الفعلي دون تأخير",
+        "features.integration.title": "تكامل سهل",
+        "features.integration.desc": "تكامل سلس مع أنظمتك الحالية وأدوات العمل الأخرى التي تستخدمها",
+        
+        // عننا
+        "about.title": "من نحن",
+        "about.p1": "TiTaPa هي منصة رائدة في مجال الذكاء الاصطناعي والتحليلات، تأسست برؤية واضحة لتمكين الشركات من الاستفادة من قوة البيانات والذكاء الاصطناعي لتحقيق النمو والابتكار.",
+        "about.p2": "نحن نقدم حلولاً متكاملة وسهلة الاستخدام تساعدك على تحليل بياناتك، وتوقع الاتجاهات المستقبلية، واتخاذ قرارات أكثر ذكاءً.",
+        "about.p3": "باستخدام أحدث التقنيات وخوارزميات الذكاء الاصطناعي المتطورة، نساعدك على تحويل بياناتك إلى رؤى قابلة للتنفيذ وتحقيق ميزة تنافسية في سوقك.",
+        "about.tryButton": "جرب الخدمة الآن",
+        
+        // البيانات
+        "data.title": "جلب البيانات الذكية",
+        "data.subtitle": "اختبر قدرة منصتنا على جلب البيانات ومعالجتها بشكل ذكي وفعال",
+        "data.boxTitle": "نموذج جلب البيانات",
+        "data.boxDesc": "انقر على الزر أدناه لاختبار قدرة النظام على جلب البيانات من مصادر خارجية ومعالجتها",
+        "data.button": "احصل على البيانات",
+        "data.placeholder": "النتيجة ستظهر هنا بعد جلب البيانات...",
+        
+        // الأسئلة الشائعة
+        "faq.title": "الأسئلة الشائعة",
+        "faq.subtitle": "إجابات على الأسئلة التي قد تدور في ذهنك حول منصة TiTaPa",
+        "faq.q1": "ما هي منصة TiTaPa؟",
+        "faq.a1": "TiTaPa هي منصة سحابية متكاملة تقدم حلول الذكاء الاصطناعي والتحليلات المتقدمة للشركات بمختلف أحجامها. نقدم أدوات لتحليل البيانات، ومحاكاة السيناريوهات، واتخاذ القرارات المدعومة بالذكاء الاصطناعي.",
+        "faq.q2": "كيف يمكنني البدء باستخدام المنصة؟",
+        "faq.a2": "يمكنك البدء بإنشاء حساب على المنصة عبر زيارة صفحة التسجيل واختيار الباقة المناسبة لاحتياجاتك. ستتمكن بعدها من الوصول إلى لوحة التحكم واستيراد بياناتك والبدء في استخدام أدواتنا التحليلية.",
+        "faq.q3": "هل تقدمون دعمًا فنيًا؟",
+        "faq.a3": "نعم، نقدم دعمًا فنيًا على مدار الساعة طوال أيام الأسبوع عبر multiple channels including live chat, email, and phone. كما نوفر documentation شاملاً ودروسًا تعليمية لمساعدتك في الاستفادة القصوى من المنصة.",
+        "faq.q4": "كيف تضمنون أمان بياناتي؟",
+        "faq.a4": "نحن نستخدم أحدث تقنيات التشفير وتخضع بياناتك لبروتوكولات أمان صارمة. نلتزم بأعلى معايير حماية البيانات والخصوصية، including compliance with GDPR and other regional regulations.",
+        
+        // الفوتر
+        "footer.tagline": "منصة الذكاء الاصطناعي والتحليلات المتقدمة",
+        "footer.linksTitle": "روابط سريعة",
+        "footer.contactTitle": "اتصل بنا",
+        "footer.location": "سلطنة عمان",
+        "footer.rights": "جميع الحقوق محفوظة"
+      },
+      en: {
+        // التنقل
+        "nav.home": "Home",
+        "nav.features": "Features",
+        "nav.about": "About",
+        "nav.data": "Data Fetching",
+        "nav.faq": "FAQ",
+        "nav.contact": "Contact",
+        
+        // زر اللغة
+        "lang.arabic": "Arabic",
+        "lang.english": "English",
+        
+        // الهيرو
+        "hero.title": "TiTaPa - Integrated AI Platform",
+        "hero.subtitle": "Advanced SaaS platform for AI simulation and smart analytics to develop your business and achieve success",
+        "hero.tryButton": "Try Service",
+        "hero.featuresButton": "Discover Features",
+        
+        // الميزات
+        "features.title": "Our Features",
+        "features.subtitle": "Discover the full power of the TiTaPa platform and how it can transform your business into a smart experience",
+        "features.ai.title": "AI Simulation",
+        "features.ai.desc": "Advanced AI simulation models to support decision making and predict results with high accuracy",
+        "features.analytics.title": "Smart Analytics",
+        "features.analytics.desc": "Accurate analytics help you understand data more deeply and extract actionable insights",
+        "features.cloud.title": "Flexible Cloud Platform",
+        "features.cloud.desc": "Flexible cloud solutions to develop your business easily with scalability according to your needs",
+        "features.security.title": "Advanced Security",
+        "features.security.desc": "We protect your data with the latest encryption technologies and advanced security systems",
+        "features.performance.title": "High Speed Performance",
+        "features.performance.desc": "Process data at high speed and deliver results in real time without delay",
+        "features.integration.title": "Easy Integration",
+        "features.integration.desc": "Seamless integration with your existing systems and other tools you use",
+        
+        // عننا
+        "about.title": "About Us",
+        "about.p1": "TiTaPa is a leading platform in the field of artificial intelligence and analytics, founded with a clear vision to enable companies to leverage the power of data and artificial intelligence to achieve growth and innovation.",
+        "about.p2": "We provide integrated and easy-to-use solutions that help you analyze your data, predict future trends, and make smarter decisions.",
+        "about.p3": "Using the latest technologies and advanced artificial intelligence algorithms, we help you transform your data into actionable insights and achieve a competitive advantage in your market.",
+        "about.tryButton": "Try Service Now",
+        
+        // البيانات
+        "data.title": "Smart Data Fetching",
+        "data.subtitle": "Test our platform's ability to fetch and process data intelligently and effectively",
+        "data.boxTitle": "Data Fetching Demo",
+        "data.boxDesc": "Click the button below to test the system's ability to fetch data from external sources and process it",
+        "data.button": "Get Data",
+        "data.placeholder": "Results will appear here after fetching data...",
+        
+        // الأسئلة الشائعة
+        "faq.title": "Frequently Asked Questions",
+        "faq.subtitle": "Answers to questions you may have about the TiTaPa platform",
+        "faq.q1": "What is the TiTaPa platform?",
+        "faq.a1": "TiTaPa is a comprehensive cloud platform that provides advanced artificial intelligence and analytics solutions for companies of all sizes. We provide tools for data analysis, scenario simulation, and AI-powered decision making.",
+        "faq.q2": "How can I start using the platform?",
+        "faq.a2": "You can start by creating an account on the platform by visiting the registration page and choosing the package that suits your needs. You will then be able to access the control panel, import your data, and start using our analytical tools.",
+        "faq.q3": "Do you provide technical support?",
+        "faq.a3": "Yes, we provide technical support 24/7 through multiple channels including live chat, email, and phone. We also provide comprehensive documentation and tutorials to help you get the most out of the platform.",
+        "faq.q4": "How do you guarantee the security of my data?",
+        "faq.a4": "We use the latest encryption technologies and your data is subject to strict security protocols. We adhere to the highest standards of data protection and privacy, including compliance with GDPR and other regional regulations.",
+        
+        // الفوتر
+        "footer.tagline": "Advanced AI and Analytics Platform",
+        "footer.linksTitle": "Quick Links",
+        "footer.contactTitle": "Contact Us",
+        "footer.location": "Sultanate of Oman",
+        "footer.rights": "All rights reserved"
+      }
+    };
+
+    // JavaScript للتحكم في القائمة المتنقلة والأسئلة الشائعة واللغة
+    document.addEventListener('DOMContentLoaded', function() {
+      // تهيئة particles.js محلياً
+      function initParticles() {
+        const particles = document.getElementById("particles-js");
+        if (!particles) return;
+        
+        // إنشاء الجسيمات يدوياً
+        for (let i = 0; i < 80; i++) {
+          const particle = document.createElement("div");
+          particle.style.position = "absolute";
+          particle.style.width = "3px";
+          particle.style.height = "3px";
+          particle.style.background = "#2575fc";
+          particle.style.borderRadius = "50%";
+          particle.style.left = Math.random() * 100 + "%";
+          particle.style.top = Math.random() * 100 + "%";
+          particles.appendChild(particle);
+          
+          // تحريك الجسيمات
+          moveParticle(particle);
+        }
+      }
+      
+      function moveParticle(particle) {
+        let x = Math.random() * window.innerWidth;
+        let y = Math.random() * window.innerHeight;
+        let dx = (Math.random() - 0.5) * 2;
+        let dy = (Math.random() - 0.5) * 2;
+        
+        function animate() {
+          x += dx;
+          y += dy;
+          
+          if (x < 0 || x > window.innerWidth) dx *= -1;
+          if (y < 0 || y > window.innerHeight) dy *= -1;
+          
+          particle.style.left = x + "px";
+          particle.style.top = y + "px";
+          
+          requestAnimationFrame(animate);
+        }
+        
+        animate();
+      }
+      
+      // شبكة عصبية متحركة (Canvas)
+      const canvas = document.getElementById("neural-bg");
+      if (canvas) {
+        const ctx = canvas.getContext("2d");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let nodes = [];
+        for (let i = 0; i < 30; i++) {
+          nodes.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            dx: (Math.random() - 0.5) * 1,
+            dy: (Math.random() - 0.5) * 1
+          });
+        }
+
+        function draw() {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          ctx.fillStyle = "#6a11cb";
+          nodes.forEach(node => {
+            ctx.beginPath();
+            ctx.arc(node.x, node.y, 3, 0, Math.PI * 2);
+            ctx.fill();
+          });
+
+          ctx.strokeStyle = "rgba(37,117,252,0.3)";
+          for (let i = 0; i < nodes.length; i++) {
+            for (let j = i + 1; j < nodes.length; j++) {
+              let dx = nodes[i].x - nodes[j].x;
+              let dy = nodes[i].y - nodes[j].y;
+              let dist = Math.sqrt(dx * dx + dy * dy);
+              if (dist < 150) {
+                ctx.beginPath();
+                ctx.moveTo(nodes[i].x, nodes[i].y);
+                ctx.lineTo(nodes[j].x, nodes[j].y);
+                ctx.stroke();
+              }
+            }
+          }
+
+          nodes.forEach(node => {
+            node.x += node.dx;
+            node.y += node.dy;
+            if (node.x < 0 || node.x > canvas.width) node.dx *= -1;
+            if (node.y < 0 || node.y > canvas.height) node.dy *= -1;
+          });
+
+          requestAnimationFrame(draw);
+        }
+
+        draw();
+        window.addEventListener("resize", () => {
+          canvas.width = window.innerWidth;
+          canvas.height = window.innerHeight;
+        });
+      }
+      
+      initParticles();
+
+      // التحكم في القائمة المتنقلة للجوال
+      const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+      const navLinks = document.querySelector('.nav-links');
+      
+      if (mobileMenuBtn && navLinks) {
+        mobileMenuBtn.addEventListener('click', function() {
+          navLinks.classList.toggle('active');
+        });
+      }
+      
+      // إغلاق القائمة عند النقر على رابط
+      const navItems = document.querySelectorAll('.nav-links a');
+      navItems.forEach(item => {
+        item.addEventListener('click', function() {
+          if (navLinks) navLinks.classList.remove('active');
+        });
+      });
+      
+      // التحكم في الأسئلة الشائعة
+      const faqItems = document.querySelectorAll('.faq-item');
+      
+      faqItems.forEach(item => {
+        const question = item.querySelector('.faq-question');
+        
+        question.addEventListener('click', () => {
+          // إغلاق جميع العناصر الأخرى
+          faqItems.forEach(otherItem => {
+            if (otherItem !== item) {
+              otherItem.classList.remove('active');
+            }
+          });
+          
+          // فتح/إغلاق العنصر الحالي
+          item.classList.toggle('active');
+        });
+      });
+      
+      // جلب البيانات محلياً
+      const fetchButton = document.getElementById('fetchButton');
+      const output = document.getElementById('output');
+      
+      if (fetchButton && output) {
+        fetchButton.addEventListener('click', function() {
+          output.innerHTML = '<div class="spinner"></div>';
+          output.classList.remove('success', 'error');
+          output.classList.add('loading');
+          
+          // محاكاة جلب البيانات محلياً
+          setTimeout(function() {
+            const isArabic = document.documentElement.lang === 'ar';
+            const mockData = {
+              id: 1,
+              title: isArabic ? "مثال على عنوان المقال" : "Example Post Title",
+              body: isArabic ? 
+                "هذا مثال على محتوى المقال الذي تم جلبه بنجاح من النظام. هذه البيانات تم توليدها محلياً دون الحاجة إلى اتصال خارجي." : 
+                "This is an example of post content that was successfully fetched from the system. This data was generated locally without the need for an external connection."
+            };
+            
+            output.innerHTML = `
+              <div class="data-item">
+                <strong>${isArabic ? 'المعرف' : 'ID'}:</strong> ${mockData.id}
+              </div>
+              <div class="data-item">
+                <strong>${isArabic ? 'العنوان' : 'Title'}:</strong> ${mockData.title}
+              </div>
+              <div class="data-item">
+                <strong>${isArabic ? 'المحتوى' : 'Content'}:</strong> ${mockData.body}
+              </div>
+              <div class="data-item">
+                <strong>${isArabic ? 'تم جلب البيانات بنجاح' : 'Data fetched successfully'}:</strong> 
+                ${isArabic ? 
+                  'هذه البيانات تم توليدها محلياً لتوضيح قدرة النظام على العمل دون اتصال بالإنترنت.' : 
+                  'This data was generated locally to demonstrate the system\'s ability to work without an internet connection.'}
+              </div>
+            `;
+            output.classList.remove('loading');
+            output.classList.add('success');
+          }, 1500);
+        });
+      }
+      
+      // تبديل اللغة
+      const languageToggle = document.getElementById('languageToggle');
+      let currentLang = 'ar';
+      
+      if (languageToggle) {
+        // تحديد اللغة الأولى بناءً على لغة المتصفح
+        const browserLang = navigator.language || navigator.userLanguage;
+        if (browserLang.startsWith('en')) {
+          currentLang = 'en';
+          switchLanguage('en');
+        }
+        
+        languageToggle.addEventListener('click', function() {
+          currentLang = currentLang === 'ar' ? 'en' : 'ar';
+          switchLanguage(currentLang);
+        });
+      }
+      
+      function switchLanguage(lang) {
+        // تحديث سمة lang في العنصر html
+        document.documentElement.lang = lang;
+        
+        // تحديث اتجاه الصفحة
+        document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+        
+        // تحديث النصوص
+        const elements = document.querySelectorAll('[data-i18n]');
+        elements.forEach(element => {
+          const key = element.getAttribute('data-i18n');
+          if (translations[lang][key]) {
+            element.textContent = translations[lang][key];
+          }
+        });
+        
+        // تحديث نص زر اللغة
+        if (languageToggle) {
+          const langText = languageToggle.querySelector('span');
+          langText.setAttribute('data-i18n', `lang.${lang === 'ar' ? 'english' : 'arabic'}`);
+          langText.textContent = translations[lang][`lang.${lang === 'ar' ? 'english' : 'arabic'}`];
+        }
+      }
+      
+      // إضافة أيقونات Font Awesome محلياً (SVG)
+      function initIcons() {
+        const icons = document.querySelectorAll('.fas, .fab');
+        icons.forEach(icon => {
+          const iconName = icon.classList[1].replace('fa-', '');
+          const svgIcon = getIconSVG(iconName, icon.classList.contains('fab'));
+          if (svgIcon) {
+            icon.innerHTML = svgIcon;
+          }
+        });
+      }
+      
+      function getIconSVG(iconName, isBrand = false) {
+        // هذه مجرد أمثلة بسيطة، يمكن إضافة المزيد من الأيقونات حسب الحاجة
+        const icons = {
+          'globe': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 18h2v-2h-2v2zm2.49-4.23c.5-.35.79-.91.79-1.52 0-.97-.78-1.75-1.75-1.75h-.5v-2.5h.5c.97 0 1.75-.78 1.75-1.75s-.78-1.75-1.75-1.75h-1.5c-.97 0-1.75.78-1.75 1.75v2.5c0 .97.78 1.75 1.75 1.75h.5v.5h-2.5v-2.5h.5c.97 0 1.75-.78 1.75-1.75s-.78-1.75-1.75-1.75h-1.5c-.97 0-1.75.78-1.75 1.75v5.5c0 .97.78 1.75 1.75 1.75h5.5c.97 0 1.75-.78 1.75-1.75 0-.61-.29-1.17-.79-1.52z"/></svg>',
+          'bars': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>',
+          'download': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>',
+          'chevron-down': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14"><path fill="currentColor" d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"/></svg>',
+          'envelope': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>',
+          'phone': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M20 15.5c-1.25 0-2.45-.2-3.57-.57-.35-.11-.74-.03-1.02.24l-2.2 2.2c-2.83-1.44-5.15-3.75-6.59-6.59l2.2-2.21c.28-.26.36-.65.25-1C8.7 6.45 8.5 5.25 8.5 4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1 0 9.39 7.61 17 17 17 .55 0 1-.45 1-1v-3.5c0-.55-.45-1-1-1z"/></svg>',
+          'map-marker-alt': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>'
+        };
+        
+        return icons[iconName] || '';
+      }
+      
+      initIcons();
+    });
+  </script>
+</body>
+</html>
